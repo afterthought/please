@@ -28,7 +28,7 @@ jobs:
 
           export PLZ_ARGS="-p --profile ci"
           docker run --rm --volume $GITHUB_WORKSPACE:/tmp/please -w /tmp/please plz_build_image:latest ./bootstrap.sh
-          cd plz-out/.please/
+          cd plz-out/please/
           zip -r $GITHUB_WORKSPACE/please.zip *
 
       - name: Semantic Release
