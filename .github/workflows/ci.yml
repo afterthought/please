@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev/*, feature/*, hotfix/*, release/*]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Release
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      
+      - name: Create Please Build Image
+        run: |
+          #!/usr/bin/env bash
+          set -e
+
+          docker build -t plz_build_image:latest tools/images/ubuntu/
+
+      - name: Build Please
+        run: |
+          #!/usr/bin/env bash
+          set -e
+
+          export PLZ_ARGS="-p --profile ci"
+          docker run --rm --volume $GITHUB_WORKSPACE:/tmp/please -w /tmp/please plz_build_image:latest ./bootstrap.sh
+          mv plz-out/please plz-out/.please
+          zip -r please.zip plz-out/.please/*
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2.6.0
+        id: semantic
+        with:
+          semantic_version: 18
+          extra_plugins: |
+            @semantic-release/changelog@6
+            @semantic-release/exec@6
+            @semantic-release/git@10
+        env:
+          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
