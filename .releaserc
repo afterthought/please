@@ -7,5 +7,6 @@ plugins:
         -
             assets:
                 - please.zip
+                - please.tar.gz
 branches:
     - 'dev/tmpfork'

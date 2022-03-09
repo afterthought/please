@@ -30,6 +30,7 @@ jobs:
           docker run --rm --volume $GITHUB_WORKSPACE:/tmp/please -w /tmp/please plz_build_image:latest ./bootstrap.sh
           cd plz-out/please/
           zip -r $GITHUB_WORKSPACE/please.zip *
+          tar -czvf $GITHUB_WORKSPACE/please.tar.gz *
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2.6.0
