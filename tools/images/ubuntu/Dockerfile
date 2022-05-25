@@ -21,6 +21,8 @@ RUN ln -s /usr/local/go/bin/go /usr/local/bin/go && ln -s /usr/local/go/bin/gofm
 # Locale
 RUN locale-gen en_GB.UTF-8
 
+RUN git config --global --add safe.directory /tmp/please
+
 # Welcome message
 COPY /motd.txt /etc/motd
 RUN echo 'cat /etc/motd' >> /etc/bash.bashrc
