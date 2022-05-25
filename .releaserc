@@ -9,4 +9,4 @@ plugins:
                 - please.zip
                 - please.tar.gz
 branches:
-    - 'dev/tmpfork'
+    - 'dev/tmpfork2'
