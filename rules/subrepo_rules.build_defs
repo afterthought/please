@@ -203,7 +203,9 @@ def github_repo(name:str, repo:str, revision:str, build_file:str=None, labels:li
 
     prefix = f'{repo}-{prefix}'
 
-    headers = {}
+    headers = {
+        'Accept': 'application/vnd.github.v3+json'
+    }
     pass_env = []
     if access_token:
         headers = {
@@ -213,7 +215,10 @@ def github_repo(name:str, repo:str, revision:str, build_file:str=None, labels:li
 
     return new_http_archive(
         name = name,
-        urls = [f'https://github.com/{org}/{repo}/archive/{revision}.zip'],
+        urls = [
+            #f'https://github.com/{org}/{repo}/archive/{revision}.zip',
+            f'https://api.github.com/repos/{org}/{repo}/zipball/{revision}'
+        ],
         strip_prefix = strip_prefix or prefix,
         strip_build = strip_build,
         build_file = build_file,
